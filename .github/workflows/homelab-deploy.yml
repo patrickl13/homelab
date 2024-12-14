@@ -1,11 +1,11 @@
 name: SSH into Raspberry Pi
 
 on:
-  workflow_dispatch: # Allows manual trigger
+  workflow_dispatch:
 
 jobs:
   ssh-connection:
-    runs-on: ubuntu-latest # You can change this to your preferred runner
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -19,4 +19,4 @@ jobs:
 
       - name: Test SSH connection to Raspberry Pi
         run: |
-          ssh -o StrictHostKeyChecking=no patrick@192.168.86.60 'echo "SSH connection successful!"'
+          ssh -o StrictHostKeyChecking=no ConnectTimeout=120 patrick@192.168.86.60 'echo "SSH connection successful!"'
