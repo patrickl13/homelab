@@ -19,4 +19,4 @@ jobs:
 
       - name: Test SSH connection to Raspberry Pi
         run: |
-          ssh -o StrictHostKeyChecking=no ConnectTimeout=60 patrick@192.168.86.60 'echo "SSH connection successful!"'
+          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=60 patrick@192.168.86.60 'echo "SSH connection successful!"'
