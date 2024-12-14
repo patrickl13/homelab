@@ -1,0 +1,22 @@
+name: SSH into Raspberry Pi
+
+on:
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  ssh-connection:
+    runs-on: ubuntu-latest # You can change this to your preferred runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Test SSH connection to Raspberry Pi
+        run: |
+          ssh -o StrictHostKeyChecking=no patrick@192.168.86.60 'echo "SSH connection successful!"'
