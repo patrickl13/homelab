@@ -19,4 +19,4 @@ jobs:
 
       - name: Test SSH connection to Raspberry Pi
         run: |
-          ssh -o StrictHostKeyChecking=no -o ConnectTimeout=60 patrick@173.206.63.235:2222 'echo "SSH connection successful!"'
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} patrick@173.206.63.235 -p 2222 "echo 'Connection successful!'"
