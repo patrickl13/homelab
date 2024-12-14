@@ -19,4 +19,6 @@ jobs:
 
       - name: Test SSH connection to Raspberry Pi
         run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} patrick@173.206.63.235 -p 2222 "echo 'Connection successful!'"
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh -i ~/.ssh/id_rsa patrick@173.206.63.235 -p 2222 "echo 'Connection successful!'"
