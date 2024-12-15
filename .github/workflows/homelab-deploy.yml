@@ -20,7 +20,7 @@ jobs:
           port: "2222"
           command_timeout: 2m
           script: |
-            git clone https://github.com/patrickl13/homelab
+            git clone https://github.com/patrickl13/homelab.git
             cd homelab
             terraform init
             terraform apply -auto-approve
