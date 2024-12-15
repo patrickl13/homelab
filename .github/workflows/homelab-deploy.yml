@@ -14,9 +14,8 @@ jobs:
       - name: Setup SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: "173.206.63.235"
+          host: 173.206.63.235
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: "2222"
+          port: 2222
           command_timeout: 2m
-          script: |
-            echo "Nice Job!!!"
+          script: whoami
