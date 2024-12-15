@@ -36,5 +36,6 @@ jobs:
           port: "2222"
           command_timeout: 30m
           script: |
-            # terraform init
+            export TF_TOKEN_app_terraform_io=${{secrets.TF_TOKEN}}
+            terraform init
             terraform apply -auto-approve
