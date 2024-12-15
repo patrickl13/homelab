@@ -11,6 +11,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Read script contents
+        id: script
+        uses: andstor/file-reader-action@v1
+        with:
+          path: script/deploy.sh
+
       - name: Setup SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
@@ -19,4 +25,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: "2222"
           command_timeout: 2m
-          script_file: "../../deploy.sh"
+          script: ${{ steps.script.outputs.contents }}
