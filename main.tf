@@ -24,7 +24,7 @@ provider "docker" {
   # You can also specify a private key if needed, or it will use the default key
   #   private_key = var.ssh_private_key
   ssh_opts = [
-    "-o", "StrictHostKeyChecking=no", "-o", "UserKnownHostsFile=/dev/null"
+    "-i", "${var.ssh_private_key} patrick@173.206.63.235:2222" # Reference the SSH private key file
   ]
 }
 
