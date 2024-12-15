@@ -16,22 +16,23 @@ jobs:
         with:
           terraform_version: 1.5.0 # Specify the version you need
 
-      - name: Set SSH Private Key and Other Variables
+      - name: Terraform Init
+        run: terraform init
         env:
           TF_VAR_ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN }}
 
-      - name: Set SSH Private Key as Environment Variable
-        run: echo "ssh_private_key=${{ secrets.SSH_PRIVATE_KEY }}" >> $GITHUB_ENV
-
-      - name: Terraform Init
-        run: terraform init
-
       - name: Terraform Plan
         run: terraform plan
+        env:
+          TF_VAR_ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN }}
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+        env:
+          TF_VAR_ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN }}
 # name: Homelab Deployment
 
 # on:
