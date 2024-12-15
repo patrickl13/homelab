@@ -1,28 +1,39 @@
-name: SSH into Raspberry Pi
+name: Homelab Deployment
 
 on:
   workflow_dispatch:
 
 jobs:
-  test-ssh:
+  terraform:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up SSH key
+      - name: Set up SSH
         run: |
-          mkdir -p ~/.ssh  # Ensure the .ssh directory exists
+          mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-
-      - name: Add Raspberry Pi to known_hosts
-        run: |
-          # touch ~/.ssh/known_hosts  # Create the known_hosts file if it doesn't exist
           ssh-keyscan -H 173.206.63.235 >> ~/.ssh/known_hosts
-          chmod 700 ~/.ssh
-          chmod 644 ~/.ssh/known_hosts
 
-      - name: Test SSH connection to Raspberry Pi
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.0 # Use the version you need
+
+      - name: Configure Terraform Cloud credentials
         run: |
-          ssh -i ~/.ssh/id_rsa patrick@173.206.63.235 -p 2222 "echo 'Connection successful!'"
+          terraform login
+        env:
+          TERRAFORM_CLOUD_TOKEN: ${{ secrets.TF_TOKEN }}
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
