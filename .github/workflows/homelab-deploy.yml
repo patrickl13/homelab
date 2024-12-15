@@ -11,11 +11,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Read script contents
-        id: script
-        uses: andstor/file-reader-action@v1
-        with:
-          path: scripts/deploy.sh
+      # - name: Read script contents
+      #   id: script
+      #   uses: andstor/file-reader-action@v1
+      #   with:
+      #     path: scripts/deploy.sh
 
       - name: copy file via ssh key
         uses: appleboy/scp-action@v0.1.7
