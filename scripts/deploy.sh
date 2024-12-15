@@ -17,5 +17,5 @@ else
 fi
 
 # Run Terraform
-terraform init
+# terraform init
 terraform apply -auto-approve
