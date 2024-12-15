@@ -33,6 +33,11 @@ resource "docker_container" "portainer" {
     host_path      = "/data/portainer"
     container_path = "/data"
   }
+
+  restart = "always"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "docker_image" "home_assistant" {
@@ -54,6 +59,9 @@ resource "docker_container" "home_assistant" {
   }
 
   restart = "always"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # Prometheus Docker Image
@@ -77,6 +85,9 @@ resource "docker_container" "prometheus" {
   }
 
   restart = "always"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # Grafana Docker Image
@@ -100,4 +111,36 @@ resource "docker_container" "grafana" {
   }
 
   restart = "always"
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "docker_image" "pihole" {
+  name = "pihole/pihole:latest"
+}
+
+resource "docker_container" "pihole" {
+  name  = "pihole"
+  image = docker_image.pihole.image_id
+
+  ports {
+    internal = 53
+    external = 53
+  }
+
+  ports {
+    internal = 80
+    external = 80
+  }
+
+  volumes {
+    host_path      = "/data/pihole"
+    container_path = "/etc/pihole"
+  }
+
+  restart = "always"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
