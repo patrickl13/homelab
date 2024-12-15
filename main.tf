@@ -94,10 +94,6 @@ resource "docker_container" "grafana" {
     external = 3000
   }
 
-  environment = {
-    GF_SECURITY_ADMIN_PASSWORD = "admin" # Change to a secure password
-  }
-
   volumes {
     host_path      = "/data/grafana"
     container_path = "/var/lib/grafana"
