@@ -5,21 +5,10 @@ terraform {
       version = "3.0.2"
     }
   }
-  cloud {
-    organization = "patrick-leduc-aws"
-
-    workspaces {
-      name = "homelab-astartes"
-    }
-  }
 }
 
 provider "docker" {
-  host = "ssh://patrick@173.206.63.235:2222" # SSH connection to your remote server
-  ssh_opts = [
-    "-o", "StrictHostKeyChecking=no",
-    "-o", "UserKnownHostsFile=/dev/null"
-  ]
+  host = "unix:///var/run/docker.sock"
 }
 
 resource "docker_image" "nginx" {
