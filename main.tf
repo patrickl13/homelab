@@ -34,3 +34,24 @@ resource "docker_container" "portainer" {
     container_path = "/data"
   }
 }
+
+resource "docker_image" "home_assistant" {
+  name = "homeassistant/home-assistant:stable"
+}
+
+resource "docker_container" "home_assistant" {
+  name  = "home_assistant"
+  image = docker_image.home_assistant.image_id
+
+  ports {
+    internal = 8123
+    external = 8123
+  }
+
+  volumes {
+    host_path      = "/data/home_assistant"
+    container_path = "/config"
+  }
+
+  restart = "always"
+}
