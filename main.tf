@@ -44,9 +44,6 @@ resource "docker_container" "portainer" {
   }
 
   restart = "always"
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "docker_image" "home_assistant" {
@@ -68,9 +65,6 @@ resource "docker_container" "home_assistant" {
   }
 
   restart = "always"
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "docker_image" "pihole" {
@@ -97,7 +91,4 @@ resource "docker_container" "pihole" {
   }
 
   restart = "always"
-  lifecycle {
-    prevent_destroy = true
-  }
 }
