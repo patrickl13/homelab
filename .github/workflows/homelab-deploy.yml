@@ -1,22 +1,26 @@
-name: SSH into Raspberry Pi
+name: Homelab Deployment
 
 on:
-  workflow_dispatch: # Allows manual trigger
+  workflow_dispatch:
 
 jobs:
-  ssh-connection:
-    runs-on: ubuntu-latest # You can change this to your preferred runner
+  terraform:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
-      - name: Test SSH connection to Raspberry Pi
-        run: |
-          ssh -o StrictHostKeyChecking=no patrick@192.168.86.60 'echo "SSH connection successful!"'
+      - name: Setup SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: "173.206.63.235"
+          username: "patrick"
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: "2222"
+          command_timeout: 2m
+          script: |
+            git clone https://github.com/patrickl13/homelab
+            cd homelab
+            terraform init
+            terraform apply -auto-approve
