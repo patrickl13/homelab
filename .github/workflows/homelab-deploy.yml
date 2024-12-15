@@ -19,4 +19,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: "2222"
           command_timeout: 2m
-          script_file: "deploy.sh"
+          script_file: "../../deploy.sh"
