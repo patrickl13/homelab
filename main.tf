@@ -20,12 +20,8 @@ terraform {
 }
 
 provider "docker" {
-  host = "ssh://patrick@173.206.63.235:2222" # SSH connection to your remote server
-  # You can also specify a private key if needed, or it will use the default key
-  #   private_key = var.ssh_private_key
-  ssh_opts = [
-    "-i", "${var.ssh_private_key} patrick@173.206.63.235:2222" # Reference the SSH private key file
-  ]
+  host    = "ssh://patrick@173.206.63.235:2222" # SSH connection to your remote server
+  ssh_key = var.ssh_private_key
 }
 
 resource "docker_image" "nginx" {
