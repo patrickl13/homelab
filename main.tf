@@ -55,3 +55,53 @@ resource "docker_container" "home_assistant" {
 
   restart = "always"
 }
+
+# Prometheus Docker Image
+resource "docker_image" "prometheus" {
+  name = "prom/prometheus:v2.42.0"
+}
+
+# Prometheus Docker Container
+resource "docker_container" "prometheus" {
+  name  = "prometheus"
+  image = docker_image.prometheus.image_id
+
+  ports {
+    internal = 9090
+    external = 9090
+  }
+
+  volumes {
+    host_path      = "/data/prometheus"
+    container_path = "/prometheus"
+  }
+
+  restart = "always"
+}
+
+# Grafana Docker Image
+resource "docker_image" "grafana" {
+  name = "grafana/grafana:latest"
+}
+
+# Grafana Docker Container
+resource "docker_container" "grafana" {
+  name  = "grafana"
+  image = docker_image.grafana.image_id
+
+  ports {
+    internal = 3000
+    external = 3000
+  }
+
+  environment = {
+    GF_SECURITY_ADMIN_PASSWORD = "admin" # Change to a secure password
+  }
+
+  volumes {
+    host_path      = "/data/grafana"
+    container_path = "/var/lib/grafana"
+  }
+
+  restart = "always"
+}
