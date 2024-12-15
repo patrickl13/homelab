@@ -24,5 +24,5 @@ jobs:
           username: "patrick"
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: "2222"
-          command_timeout: 2m
+          command_timeout: 30m
           script: ${{ steps.script.outputs.contents }}
