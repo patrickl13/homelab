@@ -24,7 +24,7 @@ jobs:
           username: "patrick"
           port: "2222"
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "main.tf"
+          source: "main.tf, test.tf"
           target: "/home/patrick"
 
       - name: Setup SSH
