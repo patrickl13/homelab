@@ -22,7 +22,8 @@ jobs:
 
       - name: Add Raspberry Pi to known_hosts
         run: |
-          mkdir -p ~/.ssh
+          mkdir -p ~/.ssh  # Ensure the .ssh directory exists
+          touch ~/.ssh/known_hosts  # Create the known_hosts file if it doesn't exist
           ssh-keyscan -H 173.206.63.235 >> ~/.ssh/known_hosts
           chmod 700 ~/.ssh
           chmod 644 ~/.ssh/known_hosts
