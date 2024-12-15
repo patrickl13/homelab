@@ -83,7 +83,7 @@ resource "docker_container" "pihole" {
 
   ports {
     internal = 53
-    external = 53
+    external = 5353
   }
 
   ports {
