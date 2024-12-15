@@ -16,9 +16,10 @@ jobs:
         with:
           terraform_version: 1.5.0 # Specify the version you need
 
-      - name: Configure Terraform Cloud credentials
-        run: |
-          echo "TFC_TOKEN=${{ secrets.TF_TOKEN }}" > ~/.terraform.d/credentials.tfrc.json
+      - name: Set SSH Private Key and Other Variables
+        env:
+          TF_VAR_ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN }}
 
       - name: Set SSH Private Key as Environment Variable
         run: echo "ssh_private_key=${{ secrets.SSH_PRIVATE_KEY }}" >> $GITHUB_ENV
