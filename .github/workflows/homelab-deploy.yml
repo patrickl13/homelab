@@ -36,5 +36,6 @@ jobs:
           port: "2222"
           command_timeout: 30m
           script: |
+            ls
             terraform init
             terraform apply -auto-approve
