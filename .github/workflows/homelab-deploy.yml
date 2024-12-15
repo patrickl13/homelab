@@ -19,8 +19,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: "2222"
           command_timeout: 2m
-          script: |
-            git clone https://github.com/patrickl13/homelab.git
-            cd homelab
-            terraform init
-            terraform apply -auto-approve
+          script_file: "deploy.sh"
