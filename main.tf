@@ -11,16 +11,26 @@ provider "docker" {
   host = "unix:///var/run/docker.sock"
 }
 
-resource "docker_image" "nginx" {
-  name = "nginx:latest"
+resource "docker_image" "portainer" {
+  name = "portainer/portainer-ce:latest"
 }
 
-resource "docker_container" "nginx_container" {
-  name  = "nginx_container"
-  image = docker_image.nginx.image_id
+resource "docker_container" "portainer" {
+  name  = "portainer"
+  image = docker_image.portainer.image_id
 
   ports {
-    internal = 80
-    external = 8080
+    internal = 9000
+    external = 9000
+  }
+
+  volumes {
+    host_path      = "/var/run/docker.sock"
+    container_path = "/var/run/docker.sock"
+  }
+
+  volumes {
+    host_path      = "/data/portainer"
+    container_path = "/data"
   }
 }
