@@ -21,6 +21,4 @@ jobs:
           command_timeout: 2m
           script: |
             terraform init
-            # Run Terraform plan and apply
-            terraform plan
             terraform apply -auto-approve
