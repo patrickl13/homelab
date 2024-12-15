@@ -11,6 +11,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Create SSH Private Key File
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/ssh_private_key
+          chmod 600 /tmp/ssh_private_key
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
         with:
