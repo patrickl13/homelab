@@ -17,14 +17,14 @@ jobs:
       #   with:
       #     path: scripts/deploy.sh
 
-      - name: copy file via ssh key
+      - name: Copy Terraform files
         uses: appleboy/scp-action@v0.1.7
         with:
           host: "173.206.63.235"
           username: "patrick"
           port: "2222"
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "main.tf, test.tf"
+          source: "main.tf"
           target: "/home/patrick"
 
       - name: Setup SSH
@@ -36,6 +36,5 @@ jobs:
           port: "2222"
           command_timeout: 30m
           script: |
-            ls
-            terraform init
+            # terraform init
             terraform apply -auto-approve
