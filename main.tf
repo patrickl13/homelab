@@ -151,24 +151,3 @@ resource "docker_container" "grafana" {
     EOT
   }
 }
-
-resource "docker_image" "docker_exporter" {
-  name = "prom/container-exporter"
-}
-
-resource "docker_container" "docker_exporter" {
-  name  = "docker-exporter"
-  image = docker_image.docker_exporter.image_id
-
-  ports {
-    internal = 9323
-    external = 9323
-  }
-
-  volumes {
-    host_path      = "/var/run/docker.sock"
-    container_path = "/var/run/docker.sock"
-  }
-
-  restart = "always"
-}
