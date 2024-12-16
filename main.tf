@@ -111,15 +111,12 @@ resource "docker_container" "prometheus" {
     container_path = "/prometheus/prometheus.yml"
   }
 
-  upload {
-    source = file("./prometheus/prometheus.yml") # Path to the file on your local machine
-    file   = "/prometheus/prometheus.yml"        # Path inside the container where the file will be uploaded
-  }
   restart = "always"
 
   provisioner "local-exec" {
     command = <<EOT
       mkdir -p /data/prometheus && \
+      sudo cp /home/patrick/prometheus/prometheus.yml /data/prometheus/prometheus.yml && \
       sudo chown -R 65534:65534 /data/prometheus && \
       sudo chmod -R 775 /data/prometheus
     EOT
