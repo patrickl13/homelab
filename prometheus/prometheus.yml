@@ -6,10 +6,9 @@ scrape_configs:
     static_configs:
       - targets: ["localhost:9090"] # Prometheus itself
 
-  - job_name: "home_assistant"
+# follow this setup: https://docs.docker.com/engine/daemon/prometheus/
+ - job_name: docker
+      # metrics_path defaults to '/metrics'
+      # scheme defaults to 'http'.
     static_configs:
-      - targets: ["localhost:8123"]
-
-  - job_name: "portainer"
-    static_configs:
-      - targets: ["localhost:9000"]
+      - targets: ["host.docker.internal:9323"]
