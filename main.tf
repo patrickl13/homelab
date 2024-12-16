@@ -139,8 +139,8 @@ resource "docker_container" "grafana" {
   provisioner "local-exec" {
     command = <<EOT
       mkdir -p /data/grafana && \
-      chown -R 472:472 /data/grafana && \
-      chmod -R 775 /data/grafana
+      sudo chown -R 472:472 /data/grafana && \
+      sudo chmod -R 775 /data/grafana
     EOT
   }
 }
