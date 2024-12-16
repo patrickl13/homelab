@@ -15,7 +15,7 @@ jobs:
         id: permissions
         uses: andstor/file-reader-action@v1
         with:
-          path: scripts/grafana_permissions.sh
+          path: scripts/permissions.sh
 
       - name: Apply Permissions
         uses: appleboy/ssh-action@v0.1.10
