@@ -135,5 +135,13 @@ resource "docker_container" "grafana" {
   user = "472:472"
 
   restart = "always"
+  # Ensure the host directory has the correct permissions
+  provisioner "local-exec" {
+    command = <<EOT
+      mkdir -p /data/grafana && \
+      chown -R 472:472 /data/grafana && \
+      chmod -R 775 /data/grafana
+    EOT
+  }
 }
 
