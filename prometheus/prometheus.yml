@@ -7,9 +7,6 @@ scrape_configs:
       - targets: ["localhost:9090"] # Prometheus itself
 
   # follow this setup: https://docs.docker.com/engine/daemon/prometheus/
-  - job_name:
-      "docker"
-      # metrics_path defaults to '/metrics'
-      # scheme defaults to 'http'.
+  - job_name: "docker"
     static_configs:
       - targets: ["host.docker.internal:9323"]
