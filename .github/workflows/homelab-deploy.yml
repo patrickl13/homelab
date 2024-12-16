@@ -44,7 +44,7 @@ jobs:
           username: ${{ vars.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ vars.PORT }}
-          source: "/prometheus/prometheus.yml"
+          source: "prometheus/prometheus.yml"
           target: "/data/prometheus"
 
       - name: Setup SSH
