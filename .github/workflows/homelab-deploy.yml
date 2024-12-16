@@ -37,6 +37,16 @@ jobs:
           source: "main.tf"
           target: "/home/patrick"
 
+      - name: Copy Prometheus files
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ vars.HOST }}
+          username: ${{ vars.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ vars.PORT }}
+          source: "prometheus/prometheus.yml"
+          target: "/data/prometheus"
+
       - name: Setup SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
