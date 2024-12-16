@@ -112,6 +112,14 @@ resource "docker_container" "prometheus" {
   }
 
   restart = "always"
+
+  provisioner "local-exec" {
+    command = <<EOT
+      mkdir -p /data/prometheus && \
+      sudo chown -R 65534:65534 /data/prometheus && \
+      sudo chmod -R 775 /data/prometheus
+    EOT
+  }
 }
 
 resource "docker_image" "grafana" {
@@ -131,8 +139,6 @@ resource "docker_container" "grafana" {
     host_path      = "/data/grafana"
     container_path = "/var/lib/grafana"
   }
-
-  user = "472:472"
 
   restart = "always"
   # Ensure the host directory has the correct permissions
