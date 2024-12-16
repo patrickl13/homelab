@@ -153,7 +153,7 @@ resource "docker_container" "grafana" {
 }
 
 resource "docker_image" "docker_exporter" {
-  name = "prom/container-exporter:latest"
+  name = "prom/container-exporter"
 }
 
 resource "docker_container" "docker_exporter" {
