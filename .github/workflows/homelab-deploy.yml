@@ -45,7 +45,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ vars.PORT }}
           source: "prometheus/prometheus.yml"
-          target: "/home/patrick/prometheus"
+          target: "/home/patrick"
 
       - name: Setup SSH
         uses: appleboy/ssh-action@v0.1.10
