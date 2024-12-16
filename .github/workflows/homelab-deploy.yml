@@ -11,19 +11,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # - name: Read script contents
-      #   id: script
-      #   uses: andstor/file-reader-action@v1
-      #   with:
-      #     path: scripts/deploy.sh
+      - name: Read Granfana Script
+        id: granfana_permissions
+        uses: andstor/file-reader-action@v1
+        with:
+          path: scripts/grafana_permissions.sh
+
+      - name: Apply Granfana Permissions
+        uses: appleboy/ssh-action@v0.1.10
+          with:
+            host: ${{ var.HOST }}
+            username: ${{ var.USERNAME }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            port: ${{ var.PORT }}
+            command_timeout: 2m
+            script: ${{ steps.grafana_permissions.outputs.contents }}
 
       - name: Copy Terraform files
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: "173.206.63.235"
-          username: "patrick"
-          port: "2222"
+          host: ${{ var.HOST }}
+          username: ${{ var.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ var.PORT }}
           source: "main.tf"
           target: "/home/patrick"
 

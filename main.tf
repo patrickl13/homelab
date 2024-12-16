@@ -132,5 +132,8 @@ resource "docker_container" "grafana" {
     container_path = "/var/lib/grafana"
   }
 
+  user = "472:472"
+
   restart = "always"
 }
+
