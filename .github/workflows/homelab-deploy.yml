@@ -19,13 +19,13 @@ jobs:
 
       - name: Apply Granfana Permissions
         uses: appleboy/ssh-action@v0.1.10
-          with:
-            host: ${{ var.HOST }}
-            username: ${{ var.USERNAME }}
-            key: ${{ secrets.SSH_PRIVATE_KEY }}
-            port: ${{ var.PORT }}
-            command_timeout: 2m
-            script: ${{ steps.grafana_permissions.outputs.contents }}
+        with:
+          host: ${{ var.HOST }}
+          username: ${{ var.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ var.PORT }}
+          command_timeout: 2m
+          script: ${{ steps.grafana_permissions.outputs.contents }}
 
       - name: Copy Terraform files
         uses: appleboy/scp-action@v0.1.7
