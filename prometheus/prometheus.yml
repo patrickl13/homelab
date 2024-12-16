@@ -8,8 +8,8 @@ scrape_configs:
 
   - job_name: "home_assistant"
     static_configs:
-      - targets: ["localhost:8123"] 
+      - targets: ["localhost:8123"]
 
   - job_name: "portainer"
-  static_configs:
-    - targets: ["localhost:9000"] 
+    static_configs:
+      - targets: ["localhost:9000"]
