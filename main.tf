@@ -108,7 +108,7 @@ resource "docker_container" "prometheus" {
 
   volumes {
     host_path      = "/data/prometheus/prometheus.yml"
-    container_path = "/prometheus/prometheus.yml"
+    container_path = "/etc/prometheus/prometheus.yml"
   }
 
   restart = "always"
