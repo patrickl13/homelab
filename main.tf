@@ -112,8 +112,8 @@ resource "docker_container" "prometheus" {
   }
 
   upload {
-    source = "./prometheus/prometheus.yml" # Path to the file on your local machine
-    file   = "/prometheus/prometheus.yml"  # Path inside the container where the file will be uploaded
+    source = file("./prometheus/prometheus.yml") # Path to the file on your local machine
+    file   = "/prometheus/prometheus.yml"        # Path inside the container where the file will be uploaded
   }
   restart = "always"
 
