@@ -116,6 +116,7 @@ resource "docker_container" "prometheus" {
   provisioner "local-exec" {
     command = <<EOT
       mkdir -p /data/prometheus && \
+      sudo rm -f /data/prometheus/prometheus.yml && \
       sudo cp /home/patrick/prometheus/prometheus.yml /data/prometheus/prometheus.yml && \
       sudo chown -R 65534:65534 /data/prometheus && \
       sudo chmod -R 775 /data/prometheus
