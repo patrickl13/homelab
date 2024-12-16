@@ -97,6 +97,7 @@ resource "docker_image" "prometheus" {
   name = "prom/prometheus:latest"
 }
 
+/*************  ✨ Codeium Command 🌟  *************/
 resource "docker_container" "prometheus" {
   name  = "prometheus"
   image = docker_image.prometheus.image_id
@@ -113,6 +114,11 @@ resource "docker_container" "prometheus" {
 
   restart = "always"
 
+  host {
+    host = "host-gateway"
+    ip   = "host.docker.internal"
+  }
+
   provisioner "local-exec" {
     command = <<EOT
       mkdir -p /data/prometheus && \
@@ -123,6 +129,7 @@ resource "docker_container" "prometheus" {
     EOT
   }
 }
+/******  6f86ad65-7b8f-4518-a418-6d8e2286b66c  *******/
 
 resource "docker_image" "grafana" {
   name = "grafana/grafana:latest"
