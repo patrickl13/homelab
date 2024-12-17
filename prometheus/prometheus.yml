@@ -9,4 +9,4 @@ scrape_configs:
   # follow this setup: https://docs.docker.com/engine/daemon/prometheus/
   - job_name: "docker"
     static_configs:
-      - targets: ["localhost:9323"]
+      - targets: ["0.0.0.0:9323"]
