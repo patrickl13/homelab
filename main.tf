@@ -118,6 +118,10 @@ resource "docker_container" "prometheus" {
     ip   = "host-gateway"
   }
 
+  networks_advanced {
+    name = "bridge"
+  }
+
   # Ensure the host directory has the correct permissions and ensure that the prometheus.yml file is copied correctly
   provisioner "local-exec" {
     command = <<EOT
