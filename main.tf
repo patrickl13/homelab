@@ -121,8 +121,8 @@ resource "docker_container" "prometheus" {
   # Ensure the host directory has the correct permissions and ensure that the prometheus.yml file is copied correctly
   provisioner "local-exec" {
     command = <<EOT
-      mkdir -p /data/prometheus && \
       sudo rm -rf /data/prometheus/prometheus.yml && \
+      mkdir -p /data/prometheus && \
       sudo cp /home/patrick/prometheus/prometheus.yml /data/prometheus/prometheus.yml && \
       sudo chown -R 65534:65534 /data/prometheus && \
       sudo chmod -R 775 /data/prometheus
