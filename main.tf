@@ -114,8 +114,8 @@ resource "docker_container" "prometheus" {
   restart = "always"
 
   host {
-    host = "host.docker.internal"
-    ip   = "172.17.0.1"
+    host = "host-gateway"
+    ip   = "host.docker.internal"
   }
 
   # Ensure the host directory has the correct permissions and ensure that the prometheus.yml file is copied correctly
