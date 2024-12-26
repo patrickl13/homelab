@@ -87,6 +87,26 @@ resource "docker_container" "prometheus" {
   }
 }
 
+resource "docker_image" "node_exporter" {
+  name = "quay.io/prometheus/node-exporter:latest"
+}
+
+resource "docker_container" "node_exporter" {
+  name  = "node_exporter"
+  image = docker_image.node_exporter.image_id
+
+  ports {
+    internal = 9100
+    external = 9100
+  }
+
+  restart = "always"
+
+  networks_advanced {
+    name = "bridge"
+  }
+}
+
 resource "docker_image" "grafana" {
   name = "grafana/grafana:latest"
 }
