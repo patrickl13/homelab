@@ -11,16 +11,61 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # - name: Read Permissions Script
+      #   id: permissions
+      #   uses: andstor/file-reader-action@v1
+      #   with:
+      #     path: scripts/permissions.sh
+
+      # - name: Apply Permissions
+      #   uses: appleboy/ssh-action@v0.1.10
+      #   with:
+      #     host: ${{ vars.HOST }}
+      #     username: ${{ vars.USERNAME }}
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     port: ${{ vars.PORT }}
+      #     command_timeout: 2m
+      #     script: ${{ steps.permissions.outputs.contents }}
+
+      - name: Copy Drive Format Script
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ vars.HOST }}
+          username: ${{ vars.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ vars.PORT }}
+          source: "scripts/format_drive.sh"
+          target: "/home/patrick"
+
+      - name: Copy Terraform files
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ vars.HOST }}
+          username: ${{ vars.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ vars.PORT }}
+          source: "main.tf"
+          target: "/home/patrick"
+
+      - name: Copy Prometheus files
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ vars.HOST }}
+          username: ${{ vars.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ vars.PORT }}
+          source: "prometheus/prometheus.yml"
+          target: "/home/patrick"
+
       - name: Setup SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: "173.206.63.235"
-          username: "patrick"
+          host: ${{ vars.HOST }}
+          username: ${{ vars.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: "2222"
-          command_timeout: 2m
+          port: ${{ vars.PORT }}
+          command_timeout: 30m
           script: |
-            git clone https://github.com/patrickl13/homelab.git
-            cd homelab
+            export TF_TOKEN_app_terraform_io=${{secrets.TF_TOKEN}}
             terraform init
             terraform apply -auto-approve

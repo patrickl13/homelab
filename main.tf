@@ -5,6 +5,15 @@ terraform {
       version = "3.0.2"
     }
   }
+
+  cloud {
+    organization = "patrick-leduc-aws"
+
+    workspaces {
+      name = "homelab-astartes"
+    }
+  }
+
 }
 
 provider "docker" {
@@ -32,5 +41,77 @@ resource "docker_container" "portainer" {
   volumes {
     host_path      = "/data/portainer"
     container_path = "/data"
+  }
+
+  restart = "always"
+}
+
+resource "docker_image" "prometheus" {
+  name = "prom/prometheus:latest"
+}
+
+resource "docker_container" "prometheus" {
+  name  = "prometheus"
+  image = docker_image.prometheus.image_id
+
+  ports {
+    internal = 9090
+    external = 9090
+  }
+
+  volumes {
+    host_path      = "/data/prometheus/prometheus.yml"
+    container_path = "/etc/prometheus/prometheus.yml"
+  }
+
+  restart = "always"
+
+  host {
+    host = "host.docker.internal"
+    ip   = "host-gateway"
+  }
+
+  networks_advanced {
+    name = "bridge"
+  }
+
+  # Ensure the host directory has the correct permissions and ensure that the prometheus.yml file is copied correctly
+  provisioner "local-exec" {
+    command = <<EOT
+      sudo rm -rf /data/prometheus/prometheus.yml && \
+      mkdir -p /data/prometheus && \
+      sudo cp /home/patrick/prometheus/prometheus.yml /data/prometheus/prometheus.yml && \
+      sudo chown -R 65534:65534 /data/prometheus && \
+      sudo chmod -R 775 /data/prometheus
+    EOT
+  }
+}
+
+resource "docker_image" "grafana" {
+  name = "grafana/grafana:latest"
+}
+
+resource "docker_container" "grafana" {
+  name  = "grafana"
+  image = docker_image.grafana.image_id
+
+  ports {
+    internal = 3000
+    external = 3000
+  }
+
+  volumes {
+    host_path      = "/data/grafana"
+    container_path = "/var/lib/grafana"
+  }
+
+  restart = "always"
+  # Ensure the host directory has the correct permissions
+  provisioner "local-exec" {
+    command = <<EOT
+      mkdir -p /data/grafana && \
+      sudo chown -R 472:472 /data/grafana && \
+      sudo chmod -R 775 /data/grafana
+    EOT
   }
 }
