@@ -95,16 +95,20 @@ resource "docker_container" "node_exporter" {
   name  = "node_exporter"
   image = docker_image.node_exporter.image_id
 
-  ports {
-    internal = 9100
-    external = 9100
+  # Run the container with the host network and access to the host's filesystem
+  network_mode = "host"
+
+  # Mount the root filesystem as read-only, required for node_exporter to access system metrics
+  volumes {
+    host_path      = "/"
+    container_path = "/host"
+    read_only      = true
   }
+
+  # Set the command to run the node_exporter with the required root filesystem path
+  command = "--path.rootfs=/host"
 
   restart = "always"
-
-  networks_advanced {
-    name = "bridge"
-  }
 }
 
 resource "docker_image" "grafana" {
