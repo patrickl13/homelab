@@ -60,8 +60,8 @@ jobs:
       - name: Setup SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: "173.206.63.235"
-          username: "patrick"
+          host: ${{ vars.HOST }}
+          username: ${{ vars.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: "2222"
           command_timeout: 30m
