@@ -27,15 +27,15 @@ jobs:
       #     command_timeout: 2m
       #     script: ${{ steps.permissions.outputs.contents }}
 
-      - name: Copy Drive Format Script
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ vars.HOST }}
-          username: ${{ vars.USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ vars.PORT }}
-          source: "scripts/format_drive.sh"
-          target: "/home/patrick"
+      # - name: Copy Drive Format Script
+      #   uses: appleboy/scp-action@v0.1.7
+      #   with:
+      #     host: ${{ vars.HOST }}
+      #     username: ${{ vars.USERNAME }}
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     port: ${{ vars.PORT }}
+      #     source: "scripts/format_drive.sh"
+      #     target: "/home/patrick"
 
       - name: Copy Terraform files
         uses: appleboy/scp-action@v0.1.7
@@ -63,7 +63,7 @@ jobs:
           host: ${{ vars.HOST }}
           username: ${{ vars.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: "2222"
+          port: ${{ vars.PORT }}
           command_timeout: 30m
           script: |
             export TF_TOKEN_app_terraform_io=${{secrets.TF_TOKEN}}
