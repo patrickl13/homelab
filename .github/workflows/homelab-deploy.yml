@@ -1,10 +1,10 @@
-name: Homelab Deployment
+name: Homelab1 Deployment
 
 on:
   workflow_dispatch:
 
 jobs:
-  terraform:
+  homelab1_deployment:
     runs-on: ubuntu-latest
 
     steps:
@@ -47,7 +47,7 @@ jobs:
           command_timeout: 30m
           script: |
             chmod +x ./scripts/install_ansible.sh
-            ./scripts/install_ansible.sh
+            sudo ./scripts/install_ansible.sh
 
       - name: Copy Terraform files
         uses: appleboy/scp-action@v0.1.7
