@@ -68,7 +68,7 @@ jobs:
           port: ${{ vars.PORT }}
           command_timeout: 30m
           script: |
-            ansible-playbook /home/patrick/setup.yml
+            ansible-playbook /home/patrick/ansible/setup.yml
 
       - name: Copy Terraform files
         uses: appleboy/scp-action@v0.1.7
