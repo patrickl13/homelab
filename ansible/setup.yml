@@ -1,5 +1,5 @@
 - name: Set up Raspberry Pi with Terraform, Docker, and SSH
-  hosts: raspberry_pi
+  hosts: localhost
   become: yes
   tasks:
     - name: Update apt cache
