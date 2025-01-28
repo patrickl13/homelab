@@ -12,6 +12,7 @@
           - curl
           - gnupg
           - software-properties-common
+          - unzip
         state: present
 
     - name: Add Docker's official GPG key
