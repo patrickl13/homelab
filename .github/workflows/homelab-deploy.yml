@@ -27,22 +27,33 @@ jobs:
       #     command_timeout: 2m
       #     script: ${{ steps.permissions.outputs.contents }}
 
-      # - name: Copy Drive Format Script
-      #   uses: appleboy/scp-action@v0.1.7
-      #   with:
-      #     host: ${{ vars.HOST }}
-      #     username: ${{ vars.USERNAME }}
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     port: ${{ vars.PORT }}
-      #     source: "scripts/format_drive.sh"
-      #     target: "/home/patrick"
+      - name: Copy ansible install script
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ vars.HOST }}
+          username: ${{ vars.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ vars.PORT }}
+          source: "scripts/install_ansible.sh"
+          target: "/home/patrick"
+
+      - name: Install Ansible
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ vars.HOST }}
+          username: ${{ vars.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ vars.PORT }}
+          command_timeout: 30m
+          script: |
+            ./install_ansible.sh
 
       - name: Copy Terraform files
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ vars.HOST }}
           username: ${{ vars.USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.PASSWORD }}
           port: ${{ vars.PORT }}
           source: "main.tf"
           target: "/home/patrick"
@@ -52,17 +63,17 @@ jobs:
         with:
           host: ${{ vars.HOST }}
           username: ${{ vars.USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.PASSWORD }}
           port: ${{ vars.PORT }}
           source: "prometheus/prometheus.yml"
           target: "/home/patrick"
 
-      - name: Setup SSH
+      - name: Terraform Apply
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ vars.HOST }}
           username: ${{ vars.USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.PASSWORD }}
           port: ${{ vars.PORT }}
           command_timeout: 30m
           script: |
