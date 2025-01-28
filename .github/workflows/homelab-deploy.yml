@@ -48,7 +48,7 @@ jobs:
           script: |
             chmod +x ./scripts/install_ansible.sh
             echo "${{ secrets.PASSWORD }}" | sudo -S ./scripts/install_ansible.sh
-        
+
       - name: Copy Ansible playbook
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -68,7 +68,7 @@ jobs:
           port: ${{ vars.PORT }}
           command_timeout: 30m
           script: |
-        ansible-playbook /home/patrick/setup.yml
+            ansible-playbook /home/patrick/setup.yml
 
       - name: Copy Terraform files
         uses: appleboy/scp-action@v0.1.7
