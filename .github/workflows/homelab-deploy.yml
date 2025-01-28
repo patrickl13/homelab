@@ -68,7 +68,7 @@ jobs:
           port: ${{ vars.PORT }}
           command_timeout: 30m
           script: |
-            echo "${{ secrets.PASSWORD }}" | sudo ansible-playbook /home/patrick/ansible/setup.yml
+            echo "${{ secrets.PASSWORD }}" | sudo -S ansible-playbook /home/patrick/ansible/setup.yml
 
       - name: Copy Terraform files
         uses: appleboy/scp-action@v0.1.7
