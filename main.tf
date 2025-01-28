@@ -139,3 +139,32 @@ resource "docker_container" "grafana" {
     EOT
   }
 }
+
+resource "docker_image" "loki" {
+  name = "grafana/loki:latest"
+}
+
+resource "docker_container" "loki" {
+  name  = "loki"
+  image = docker_image.loki.image_id
+
+  ports {
+    internal = 3100
+    external = 3100
+  }
+
+  volumes {
+    host_path      = "/data/loki"
+    container_path = "/loki"
+  }
+
+  restart = "always"
+  # Ensure the host directory has the correct permissions
+  provisioner "local-exec" {
+    command = <<EOT
+      mkdir -p /data/loki && \
+      sudo chown -R 10001:10001 /data/loki && \
+      sudo chmod -R 775 /data/loki
+    EOT
+  }
+}
