@@ -49,27 +49,6 @@ jobs:
             chmod +x ./scripts/install_ansible.sh
             echo "${{ secrets.PASSWORD }}" | sudo -S ./scripts/install_ansible.sh
 
-      - name: Copy Ansible playbook
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ vars.HOST }}
-          username: ${{ vars.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ vars.PORT }}
-          source: "ansible/setup.yml"
-          target: "/home/patrick"
-
-      - name: Run Ansible playbook
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ vars.HOST }}
-          username: ${{ vars.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ vars.PORT }}
-          command_timeout: 30m
-          script: |
-        ansible-playbook /home/patrick/setup.yml
-
       - name: Copy Terraform files
         uses: appleboy/scp-action@v0.1.7
         with:
