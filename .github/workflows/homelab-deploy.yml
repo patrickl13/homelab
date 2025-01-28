@@ -46,7 +46,7 @@ jobs:
           port: ${{ vars.PORT }}
           command_timeout: 30m
           script: |
-            ./install_ansible.sh
+            ./scripts/install_ansible.sh
 
       - name: Copy Terraform files
         uses: appleboy/scp-action@v0.1.7
