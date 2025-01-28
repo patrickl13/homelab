@@ -47,7 +47,7 @@ jobs:
           command_timeout: 30m
           script: |
             chmod +x ./scripts/install_ansible.sh
-            sudo ./scripts/install_ansible.sh
+            echo "${{ secrets.PASSWORD }}" | sudo -S ./scripts/install_ansible.sh
 
       - name: Copy Terraform files
         uses: appleboy/scp-action@v0.1.7
