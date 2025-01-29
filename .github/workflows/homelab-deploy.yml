@@ -36,6 +36,7 @@ jobs:
           port: ${{ vars.PORT }}
           source: "scripts/install_ansible.sh"
           target: "/home/patrick"
+          timeout: 5m
 
       - name: Install Ansible
         uses: appleboy/ssh-action@v0.1.10
