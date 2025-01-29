@@ -39,11 +39,25 @@
         groups: docker
         append: yes
 
-    - name: Install Terraform
+    - name: Download Terraform package
+      get_url:
+        url: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip"
+        dest: "/tmp/terraform.zip"
+      vars:
+        terraform_version: "1.5.0" # Change this to the desired version
+
+    - name: Unzip Terraform package
       unarchive:
-        src: https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_arm64.zip
-        dest: /usr/local/bin
+        src: "/tmp/terraform.zip"
+        dest: "/usr/local/bin/"
         remote_src: yes
+
+    - name: Clean up Terraform zip file
+      file:
+        path: "/tmp/terraform.zip"
+        state: absent
+
+    - name: Ensure Terraform is executable
+      file:
+        path: "/usr/local/bin/terraform"
         mode: "0755"
-        owner: root
-        group: root
