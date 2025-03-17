@@ -23,23 +23,6 @@ terraform {
 
 provider "helm" {
   kubernetes {
-    config_path = "~/.kube/config"
+    config_path = "/etc/rancher/k3s/k3s.yaml"
   }
 }
-
-resource "helm_release" "prometheus" {
-  name             = "prometheus"
-  repository       = "https://grafana.github.io/helm-charts"
-  chart            = "homelab"
-  namespace        = "monitoring"
-  create_namespace = true
-
-  values = [
-    <<EOF
-    grafana:
-      adminPassword: "supersecure"
-    EOF
-  ]
-}
-
-
