@@ -1,28 +1,84 @@
-# resource "helm_release" "pihole" {
-#   name             = "pihole"
-#   repository       = "https://savepointsam.github.io/charts"
-#   chart            = "pihole"
-#   namespace        = "network"
-#   create_namespace = true
-#   wait             = false
+resource "kubernetes_namespace" "pihole" {
+  metadata {
+    name = "pihole"
+  }
+}
 
-#   set {
-#     name  = "service.type"
-#     value = "NodePort"
-#   }
+resource "kubernetes_deployment" "pihole" {
+  metadata {
+    name      = "pihole"
+    namespace = kubernetes_namespace.pihole.metadata[0].name
+  }
 
-#   set {
-#     name  = "persistence.enabled"
-#     value = "true"
-#   }
+  spec {
+    replicas = 1
 
-#   set {
-#     name  = "persistence.size"
-#     value = "10Gi"
-#   }
+    selector {
+      match_labels = {
+        app = "pihole"
+      }
+    }
 
-#   set {
-#     name  = "service.nodePort"
-#     value = "32080"
-#   }
-# }
+    template {
+      metadata {
+        labels = {
+          app = "pihole"
+        }
+      }
+
+      spec {
+        container {
+          name  = "pihole"
+          image = "pihole/pihole:latest"
+
+          port {
+            container_port = 80
+          }
+
+          port {
+            container_port = 53
+          }
+
+          env {
+            name  = "TZ"
+            value = "America/Los_Angeles"
+          }
+
+          env {
+            name  = "WEBPASSWORD"
+            value = "changeme"
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_service" "pihole" {
+  metadata {
+    name      = "pihole"
+    namespace = kubernetes_namespace.pihole.metadata[0].name
+  }
+
+  spec {
+    selector = {
+      app = "pihole"
+    }
+
+    port {
+      name        = "http"
+      port        = 80
+      target_port = 80
+      protocol    = "TCP"
+    }
+
+    port {
+      name        = "dns"
+      port        = 53
+      target_port = 53
+      protocol    = "UDP"
+    }
+
+    type = "NodePort"
+  }
+}
