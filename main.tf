@@ -38,3 +38,7 @@ module "monitoring" {
 module "apps" {
   source = "./apps"
 }
+
+module "network" {
+  source = "./network"
+}
